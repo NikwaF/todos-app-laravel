@@ -13,9 +13,8 @@ class TodosController extends Controller
         return view('todos.index')->with('todos',$todos);
     }
 
-    public function show($id)
+    public function show(Todo $todo)
     {
-        $todo = Todo::find($id);
         return view('todos.show')->with('todo', $todo);
     }
 
@@ -40,23 +39,58 @@ class TodosController extends Controller
  
         $todo->save();
 
+        session()->flash('sukses', 'Berhasil Menyimpan data');
         return redirect('/todos');
     }
 
-    public function edit($todoId)
+    public function edit(Todo $todo)
     {   
-        $todo = Todo::find($todoId);
         return view('todos.edit')->with('todo', $todo);
     }
 
     public function update()
     {
+        
         $this->validate(request(), [
             'name' => 'required',
             'description' => 'required'
         ]);
         
+
         $data = request()->all();
+
+        $todo = Todo::find($data['todo_id']);
+        $todo->name = $data['name'];
+        $todo->description = $data['description'];
+
+        $todo->save();
+
+        session()->flash('sukses', 'Berhasil Mengupdate data');
         
+        return redirect('/todos');
+    }
+
+    public function destroy(Todo $todo)
+    {
+
+        $todo->delete();
+        session()->flash('sukses', 'Berhasil Menghapus data');
+        return redirect('/todos');
+    }
+
+    public function complete(Todo $todo)
+    {
+        $todo->completed = true;
+        $todo->save();
+        session()->flash('sukses', $todo->name.' Complete');
+        return redirect('/todos');
+    }
+
+    public function uncomplete(Todo $todo)
+    {
+        $todo->completed = false;
+        $todo->save();
+        session()->flash('sukses', $todo->name.' Uncomplete');
+        return redirect('/todos');
     }
 }

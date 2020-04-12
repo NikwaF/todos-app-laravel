@@ -18,7 +18,12 @@ Todos App
           <ul class="list-group">
             @foreach($todos as $todo)
               <li class="list-group-item">{{ $todo->name }}
-              <a class="btn btn-primary btn-sm float-right" href="/todos/{{ $todo->id }}">View</a>
+              @if(!$todo->completed)
+                <a class="btn btn-warning btn-sm float-right" style="color:white;" href="/todos/{{ $todo->id }}/complete">Complete</a>
+              @else  
+               <a class="btn btn-danger btn-sm float-right" style="color:white;" href="/todos/{{ $todo->id }}/unclomplete">Uncomplete</a>
+              @endif
+              <a class="btn btn-primary btn-sm float-right mr-2" href="/todos/{{ $todo->id }}">View</a>
               </li>
             @endforeach
           </ul>

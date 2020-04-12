@@ -43,7 +43,7 @@ Create Todos
           </div>
 
           <div class="form-group text-center">
-            <button type="submit" class="btn btn-success">Create Todo</button>
+            <button type="submit" class="btn btn-success">Edit Todo</button>
           </div>
         </form>
       </div>
